@@ -95,7 +95,7 @@ Edit file .env dan sesuaikan konfigurasi database untuk Docker:
 database.default.hostname = db    # Nama service MySQL di docker-compose
 database.default.database = cuti
 database.default.username = root
-database.default.password = root123
+database.default.password = 
 database.default.port = 3306
 ```
 
