@@ -88,7 +88,7 @@ cd backend
 cp env .env
 ganti .env , hostname jadi db
 ganti app, config, database.php jadi db 
-(yang tadinya itu localhost buat testing)
+(yang tadinya itu localhost atau 127.0.0.1 buat testing)
 ```
 Edit file .env dan sesuaikan konfigurasi database untuk Docker:
 ```env
@@ -227,6 +227,7 @@ database.default.password = [password]
 4. Migrasi database
 ```bash
 php spark migrate
+php spark serve (dipake)
 ```
 
 5. Jalankan seeder (opsional)
