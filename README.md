@@ -2,19 +2,6 @@
 
 Sistem manajemen cuti akademik berbasis REST API menggunakan CodeIgniter 4 Framework. Sistem ini dirancang untuk mengelola proses pengajuan dan manajemen cuti akademik mahasiswa dengan berbagai role pengguna.
 
-## 📋 Daftar Isi
-- [Fitur Utama](#fitur-utama)
-- [Teknologi](#teknologi)
-- [Persyaratan Sistem](#persyaratan-sistem)
-- [Instalasi](#instalasi)
-  - [Instalasi dengan Docker](#instalasi-dengan-docker)
-  - [Instalasi Manual](#instalasi-manual)
-- [Struktur Database](#struktur-database)
-- [API Endpoints](#api-endpoints)
-- [Role dan Hak Akses](#role-dan-hak-akses)
-- [Alur Pengajuan Cuti](#alur-pengajuan-cuti)
-- [Dokumentasi API](#dokumentasi-api)
-
 ## 🚀 Fitur Utama
 
 ### 1. Manajemen User
@@ -30,18 +17,13 @@ Sistem manajemen cuti akademik berbasis REST API menggunakan CodeIgniter 4 Frame
 
 ### 3. Dashboard per Role
 - Dashboard Mahasiswa
-- Dashboard Dosen
 - Dashboard Admin
-- Dashboard BAUP
 - Dashboard Kajur
-- Dashboard Koordinator Perpustakaan
 
 ### 4. Manajemen Data
 - Pengelolaan data mahasiswa
-- Pengelolaan data dosen
 - Pengelolaan data kajur
 - Pengelolaan data admin
-- Pengelolaan data BAUP
 
 ## 💻 Teknologi
 
@@ -62,7 +44,7 @@ Sistem manajemen cuti akademik berbasis REST API menggunakan CodeIgniter 4 Frame
 - Postman (untuk testing API)
 
 ### Untuk Instalasi Manual
-- PHP >= 8.1
+- PHP >= 8.3
 - MySQL/MariaDB
 - Composer
 - Apache/Nginx
