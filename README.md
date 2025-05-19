@@ -73,30 +73,59 @@ Sistem manajemen cuti akademik berbasis REST API menggunakan CodeIgniter 4 Frame
   - mysqlnd
   - xml
 
+## 📁 Struktur Folder
+
+```bash
+scutii/
+│
+├── backend_/                   
+│   └── (isi file PHP & logic backend)
+│
+├── docker/
+│   ├── nginx/
+│   │   └── conf.d/
+│   │       └── backend.conf
+            └── frontend.conf 
+│   └── php/
+│       └── local.ini  
+│       └── www.conf 
+│
+├── frontend/                     # (opsional: untuk file frontend jika dipisah)
+│   └── (HTML/CSS/JS dll)
+│
+├── docker-compose.yml            # File utama untuk mengelola container
+├── Dockerfile                    # Build image PHP backend
+└── README.md
+```
+
 ## 📥 Instalasi
 
 ### Instalasi dengan Docker
 
 1. Clone repository
 ```bash
-git clone [repository-url]
-cd backend
+git clone [repository-url] backend
+
+git clone [repo-url] frontend
 ```
 
-2. Setup Environment
+2. Setup Environment di backend
 ```bash
 cp env .env
-ganti .env , hostname jadi db
-ganti app, config, database.php jadi db 
-(yang tadinya itu localhost atau 127.0.0.1 buat testing)
+ganti .env , hostname jadi [db]
+ganti app, config, database.php jadi [db] 
+#yang tadinya itu localhost atau 127.0.0.1 buat testing
 ```
-Edit file .env dan sesuaikan konfigurasi database untuk Docker:
-```env
+Edit file .env di backend dan sesuaikan konfigurasi database untuk Docker:
+```bash
 database.default.hostname = db    # Nama service MySQL di docker-compose
 database.default.database = cuti
 database.default.username = root
 database.default.password = 
 database.default.port = 3306
+
+# ! di dalam backend dan frontend harus ada file [.env]
+# agar bisa kebaca buat build dockernya
 ```
 
 3. Build dan Jalankan Docker Container
@@ -109,7 +138,7 @@ docker-compose up -d
 docker ps
 ```
 
-4. Import Database (jika ada)
+4. Import Database (Opsional, jika tidak menggunakan phpMyAdmin)
 ```bash
 # Copy file SQL ke container
 docker cp ./cuti.sql scuti-db:/cuti.sql
@@ -121,9 +150,6 @@ docker exec -it scuti-db mysql -uroot -proot123 cuti < cuti.sql
 docker exec -i scuti-db mysql -uroot cuti < cuti.sql (yang ga pake passwd)
 docker exec -i scuti-db mysql -h localhost -uroot cuti < cuti.sql
 
-#jalanin
-docker compose up -d
-------
 # Masuk ke SQL (opsional)
 docker exec -it scuti-db mysql -uroot cuti
 # nunjukin table
@@ -137,152 +163,208 @@ docker compose restart
 docker ps
 ```
 
-5. Verifikasi Instalasi
-- Web Server: http://localhost:8080 (Default CodeIgniter welcome page)
-- API Endpoint: http://localhost:8080/mahasiswa (atau endpoint lainnya)
+## 🚀 Verifikasi Instalasi
 
-#### Struktur Docker
-Project ini menggunakan 3 container Docker:
-1. **PHP-FPM (scuti-app)**
-   - Base image: php:8.3-fpm
-   - Extensions: mysqli, pdo_mysql, mbstring, exif, pcntl, bcmath, gd, intl
+- **Frontend Laravel**: `http://localhost:8082`
+- **Backend CodeIgniter 4**: `http://localhost:8080`
+- **API Endpoint**: `http://localhost:8080/mahasiswa`
+- **phpMyAdmin**: `http://localhost:8081`
+
+---
+
+## ⚙️ Struktur Docker
+
+Proyek ini menggunakan 3 container utama:
+
+1. **Backend (scuti-app)**
+   - Base Image: `php:8.3-fpm`
+   - Framework: CodeIgniter 4
+   - Ekstensi: `mysqli`, `pdo_mysql`, `mbstring`, `exif`, `pcntl`, `bcmath`, `gd`, `intl`
    - Composer untuk dependency management
 
-2. **Nginx (scuti-nginx)**
-   - Base image: nginx:alpine
-   - Port: 8080:80
-   - Serves sebagai web server
+2. **Frontend (scuti-frontend)**
+   - Base Image: `php:8.3-fpm`
+   - Framework: Laravel
+   - Berinteraksi dengan backend via HTTP
 
-3. **MySQL (scuti-db)**
-   - Base image: mysql:8.0
-   - Port: 3307:3306 (diubah untuk menghindari konflik)
-   - Credentials default:
-     - Database: cuti
-     - Username: root
-     - Password: 
+3. **Nginx (scuti-nginx)**
+   - Base Image: `nginx:alpine`
+   - Port: `8080:80` (backend) dan `8082:80` (frontend)
 
-#### Docker Commands yang Sering Digunakan
+4. **MySQL (scuti-db)**
+   - Base Image: `mysql:8.0`
+   - Port: `3307:3306`
+   - Default Credentials:
+     - Database: `cuti`
+     - Username: `root`
+     - Password: *(kosong)*
+
+5. **phpMyAdmin**
+   - Port: `8081:80`
+   - Terhubung ke database `scuti-db`
+
+---
+
+## 🐳 Docker Commands Umun
+
 ```bash
-# Start containers
+# Start semua container
 docker-compose up -d
 
-# Stop containers
+# Stop semua container
 docker-compose down
 
-# Lihat logs
-docker logs scuti-app    # PHP logs
-docker logs scuti-nginx  # Nginx logs
-docker logs scuti-db     # MySQL logs
+# Build ulang container setelah ubah Dockerfile
+docker-compose build --no-cache
+docker-compose up -d
 
 # Masuk ke container
 docker exec -it scuti-app bash
 docker exec -it scuti-db bash
 
-# Rebuild container (setelah mengubah Dockerfile)
-docker-compose build --no-cache
-docker-compose up -d
+# Cek logs container
+docker logs scuti-app       # Backend CI logs
+docker logs scuti-nginx     # Nginx logs
+docker logs scuti-db        # MySQL logs
 
-# Hapus semua container dan volume
+# Hapus container dan volume
 docker-compose down -v
 ```
 
-#### Troubleshooting Docker
-1. **Port Conflicts**
-   - Error: "port is already allocated"
-   - Solusi: Ubah port mapping di docker-compose.yml
+---
 
-2. **MySQL Connection Issues**
-   - Error: "MySQL extension not loaded"
-   - Solusi: Pastikan extension mysqli sudah terinstall di container PHP
+## 🛠️ Manual Instalasi (Opsional)
 
-3. **Permission Issues**
-   - Error: "Permission denied"
-   - Solusi: Periksa ownership files di container (www-data:www-data)
+### Backend (CodeIgniter 4)
 
-### Instalasi Manual
-
-1. Clone repository
 ```bash
-git clone [repository-url]
+git clone [repo-backend]
 cd backend
-```
-
-2. Install dependencies
-```bash
 composer install
-```
-
-3. Konfigurasi environment
-```bash
 cp env .env
 ```
-Edit file .env dan sesuaikan konfigurasi database:
+
+Edit file `.env`:
+
 ```env
-database.default.hostname = localhost
-database.default.database = [nama_database]
-database.default.username = [username]
-database.default.password = [password]
+database.default.hostname = scuti-db
+database.default.database = cuti
+database.default.username = root
+database.default.password =
 ```
 
-4. Migrasi database
+Lalu jalankan:
+
 ```bash
-php spark migrate
-php spark serve (dipake)
+php spark serve
 ```
 
-5. Jalankan seeder (opsional)
+---
+
+### Frontend (Laravel)
+
 ```bash
-php spark db:seed InitialSeeder
+git clone [repo-frontend]
+cd frontend
+composer install
+cp .env.example .env
+php artisan key:generate
 ```
 
-## 🗄️ Struktur Database
+Edit file `.env`:
+
+```env
+VITE_API_URL=http://localhost:8080
+```
+
+Lalu jalankan:
+
+```bash
+php artisan serve
+```
+
+---
+
+## 🧾 Struktur Database
+
+**Database: `cuti`**
 
 ### Tabel Utama
-1. users
-   - id_user (PK)
-   - username
-   - role
-   - status
 
-2. mahasiswa
-   - npm (PK)
-   - id_user (FK)
-   - nama_mahasiswa
-   - id_dosen (FK)
-   - id_kajur (FK)
+- `user`
+  - `id_user` (PK)
+  - `username`
+  - `role` (admin/kajur/mahasiswa)
+  - `status`
 
-3. cuti
-   - id_cuti (PK)
-   - npm (FK)
-   - tanggal_pengajuan
-   - status_cuti
+- `admin`
+  - `id_admin` (PK)
+  - `id_user` (FK)
 
-[Detail tabel lainnya...]
+- `mahasiswa`
+  - `npm` (PK)
+  - `id_user` (FK)
+  - `nama_mahasiswa`
+  - `id_kajur` (FK)
 
-## 🔌 API Endpoints
+- `kajur`
+  - `id_kajur` (PK)
+  - `id_user` (FK)
+
+- `cuti`
+  - `id_cuti` (PK)
+  - `npm` (FK)
+  - `tanggal_pengajuan`
+  - `status_cuti`
+
+---
+
+## 📡 API Endpoints
 
 ### Autentikasi
-- POST /user - Register user baru
-- GET /user - Get semua user
-- GET /user/{id} - Get user by ID
-- PUT /user/{id} - Update user
-- DELETE /user/{id} - Delete user
+
+```http
+POST    /user             # Tambah user
+GET     /user             # Ambil semua user
+GET     /user/{id}        # Detail user
+PUT     /user/{id}        # Update user
+DELETE  /user/{id}        # Hapus user
+```
 
 ### Mahasiswa
-- POST /mahasiswa - Tambah mahasiswa
-- GET /mahasiswa - Get semua mahasiswa
-- GET /mahasiswa/{npm} - Get mahasiswa by NPM
-- PUT /mahasiswa/{npm} - Update mahasiswa
-- DELETE /mahasiswa/{npm} - Delete mahasiswa
+
+```http
+POST    /mahasiswa
+GET     /mahasiswa
+GET     /mahasiswa/{npm}
+PUT     /mahasiswa/{npm}
+DELETE  /mahasiswa/{npm}
+```
 
 ### Cuti
-- POST /cuti - Pengajuan cuti
-- GET /cuti - Get semua data cuti
-- GET /cuti/{id} - Get cuti by ID
-- PUT /cuti/{id} - Update status cuti
-- DELETE /cuti/{id} - Delete cuti
 
-[Detail endpoint lainnya...]
+```http
+POST    /cuti
+GET     /cuti
+GET     /cuti/{id}
+PUT     /cuti/{id}
+DELETE  /cuti/{id}
+```
+
+---
+
+## 🧩 View Pendukung
+
+Digunakan untuk menyederhanakan query dan tampilan data di frontend.
+
+- `view_beranda_mahasiswa`
+- `view_beranda_kajur`
+- `view_riwayat_admin`
+
+---
+
+> 🔧 Sistem ini cocok untuk simulasi pengajuan cuti mahasiswa dengan role yang berbeda (admin, kajur, mahasiswa) dan terintegrasi penuh antara backend dan frontend berbasis Docker.
+
 
 ## 👥 Role dan Hak Akses
 
