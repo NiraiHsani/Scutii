@@ -72,7 +72,7 @@ scutii/
 │       └── local.ini  
 │       └── www.conf 
 │
-├── frontend/                     # (opsional: untuk file frontend jika dipisah)
+├── frontend/                    
 │   └── (HTML/CSS/JS dll)
 │
 ├── docker-compose.yml            # File utama untuk mengelola container
@@ -130,7 +130,7 @@ docker cp cuti.sql scuti-db:/cuti.sql
 # Import database
 docker exec -it scuti-db mysql -uroot -proot123 cuti < cuti.sql
 docker exec -i scuti-db mysql -uroot cuti < cuti.sql (yang ga pake passwd)
-docker exec -i scuti-db mysql -h localhost -uroot cuti < cuti.sql
+docker exec -i scuti-db mysql -h localhost -uroot cuti < cuti.sql 9versi lain)
 
 # Masuk ke SQL (opsional)
 docker exec -it scuti-db mysql -uroot cuti
@@ -229,7 +229,7 @@ cp env .env
 Edit file `.env`:
 
 ```env
-database.default.hostname = scuti-db
+database.default.hostname = db
 database.default.database = cuti
 database.default.username = root
 database.default.password =
