@@ -434,3 +434,5 @@ Silakan berkontribusi dengan membuat pull request atau melaporkan issue.
 Untuk informasi lebih lanjut, hubungi:
 - Email: [email]
 - Website: [website]
+
+link drive folder scuti = https://drive.google.com/drive/folders/1iNvVx447Tw7R1VreRIOydmBVeH-Neqjb 
