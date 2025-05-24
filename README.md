@@ -82,6 +82,8 @@ scutii/
 
 ## 📥 Instalasi
 
+link drive folder scuti = https://drive.google.com/drive/folders/1iNvVx447Tw7R1VreRIOydmBVeH-Neqjb 
+
 ### Instalasi dengan Docker
 
 1. Clone repository
@@ -435,4 +437,4 @@ Untuk informasi lebih lanjut, hubungi:
 - Email: [email]
 - Website: [website]
 
-link drive folder scuti = https://drive.google.com/drive/folders/1iNvVx447Tw7R1VreRIOydmBVeH-Neqjb 
+
