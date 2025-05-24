@@ -148,7 +148,7 @@ docker --version
 
 ### link Google Drive folder scuti = https://drive.google.com/drive/folders/1iNvVx447Tw7R1VreRIOydmBVeH-Neqjb 
 ---
-### Instalasi dengan Docker
+### Instalasi dan Uji Coba dengan Docker di VS Code
 
 1. Clone repository
 ```bash
