@@ -79,8 +79,71 @@ scutii/
 ├── Dockerfile                    # Build image PHP backend
 └── README.md
 ```
+# 📦 Panduan Instalasi Docker di Windows 10/11
 
-## 📥 Instalasi
+Panduan ini menjelaskan langkah-langkah instalasi Docker Desktop di Windows dari awal hingga selesai, termasuk aktivasi fitur Windows yang diperlukan seperti **WSL** dan **Virtual Machine Platform**.
+
+---
+
+## ✅ Persyaratan Sistem
+
+- Sistem Operasi: Windows 10 64-bit (build 19044+) atau Windows 11
+- CPU: Mendukung virtualisasi (Intel VT-x atau AMD-V)
+- RAM: Minimal 4 GB
+- Akun Windows dengan akses administrator
+- Terhubung ke internet
+
+---
+
+## 🧰 1. Aktifkan Fitur Windows (WSL & Virtual Machine Platform)
+
+1. Buka **Control Panel** atau tekan `Windows + S`, lalu cari **Turn Windows features on or off**.
+2. Centang opsi berikut:
+   - ✅ **Virtual Machine Platform**
+   - ✅ **Windows Subsystem for Linux**
+
+3. Klik **OK**, tunggu proses selesai.
+4. Restart komputer jika diminta.
+
+---
+
+## 🔽 2. Unduh Docker Desktop
+
+1. Kunjungi: [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+2. Klik tombol **Download for Windows (WSL2)**.
+3. Simpan dan jalankan installer (biasanya bernama `Docker Desktop Installer.exe`).
+
+---
+
+## ⚙️ 3. Jalankan Installer Docker Desktop
+
+1. Klik dua kali file installer.
+2. Pastikan opsi berikut dicentang:
+   - ✅ **Use WSL 2 instead of Hyper-V (recommended)**
+   - ✅ **Add shortcut to desktop** (opsional)
+
+3. Klik **OK** dan tunggu hingga proses instalasi selesai.
+4. Setelah selesai, klik **Close and restart** jika diminta.
+
+---
+
+## 📦 4. Setup Docker Pertama Kali
+
+1. Setelah restart, buka **Docker Desktop**.
+2. Docker akan melakukan konfigurasi awal. Tunggu hingga muncul tulisan:  
+   ✅ **Docker Desktop is running**
+3. Jika diminta login, bisa lewati atau daftar akun Docker (opsional).
+
+---
+
+## 📥 5. Uji Coba Instalasi
+
+Buka **Command Prompt (CMD)** atau **Windows Terminal**, lalu jalankan perintah:
+
+```bash
+docker --version
+
+## 📥 Panduan Install di folder.
 
 link drive folder scuti = https://drive.google.com/drive/folders/1iNvVx447Tw7R1VreRIOydmBVeH-Neqjb 
 
@@ -111,8 +174,15 @@ database.default.port = 3306
 # ! di dalam backend dan frontend harus ada file [.env]
 # agar bisa kebaca buat build dockernya
 ```
+3. Tambahkan File - file pendukung docker berupa :
+   1. folder docker\ yang berisi folder php, nginx dan mysql
+   2. file Dockerfile\
+   3. file docker-compose.yml\
+```bash
+# bisa lihat di drive lengkap yang sudah disediakan
+```
 
-3. Build dan Jalankan Docker Container
+3.1. Build dan Jalankan Docker Container
 ```bash
 # Build dan jalankan container
 docker-compose build --no-cache
