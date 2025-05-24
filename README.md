@@ -142,6 +142,7 @@ Buka **Command Prompt (CMD)** atau **Windows Terminal**, lalu jalankan perintah:
 
 ```bash
 docker --version
+```
 
 ## 📥 Panduan Install di folder.
 
