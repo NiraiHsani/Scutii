@@ -143,11 +143,11 @@ Buka **Command Prompt (CMD)** atau **Windows Terminal**, lalu jalankan perintah:
 ```bash
 docker --version
 ```
-
+---
 ## 📥 Panduan Install di folder.
 
 ### link Google Drive folder scuti = https://drive.google.com/drive/folders/1iNvVx447Tw7R1VreRIOydmBVeH-Neqjb 
-
+---
 ### Instalasi dengan Docker
 
 1. Clone repository
